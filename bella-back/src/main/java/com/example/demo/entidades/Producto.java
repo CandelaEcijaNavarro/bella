@@ -34,7 +34,7 @@ public class Producto implements Serializable {
 	private String nombre;
 
 	@Column(name = "numero_resenas")
-	private int numeroResenas;
+	private Integer numeroResenas;
 
 	private BigDecimal precio;
 
@@ -110,11 +110,11 @@ public class Producto implements Serializable {
 		this.nombre = nombre;
 	}
 
-	public int getNumeroResenas() {
+	public Integer getNumeroResenas() {
 		return this.numeroResenas;
 	}
 
-	public void setNumeroResenas(int numeroResenas) {
+	public void setNumeroResenas(Integer numeroResenas) {
 		this.numeroResenas = numeroResenas;
 	}
 

@@ -1,0 +1,25 @@
+-- Categorias
+INSERT INTO categorias (id_categoria, nombre, descripcion) VALUES (1, 'Cuidado Facial', NULL);
+INSERT INTO categorias (id_categoria, nombre, descripcion) VALUES (2, 'Maquillaje', NULL);
+INSERT INTO categorias (id_categoria, nombre, descripcion) VALUES (3, 'Perfumes', NULL);
+INSERT INTO categorias (id_categoria, nombre, descripcion) VALUES (4, 'Accesorios', NULL);
+INSERT INTO categorias (id_categoria, nombre, descripcion) VALUES (5, 'Cabello', NULL);
+INSERT INTO categorias (id_categoria, nombre, descripcion) VALUES (6, 'Cuerpo', NULL);
+
+-- Productos
+-- Note: Replaced b'1' with true, b'0' with false. 
+-- Note: Injected specific dates for fecha_creacion to support "New Arrivals" (last 7 days logic).
+
+INSERT INTO productos (id_producto, activo, descripcion, id_categoria, imagen, nombre, numero_resenas, precio, puntuacion_media, stock, en_oferta, es_nuevo, fecha_creacion, precio_original) VALUES 
+(13, true, 'Crema nutritiva para la noche.', 1, '/images/crema_noche.png', 'Crema de noche', NULL, 318.00, NULL, 100, true, false, DATEADD('DAY', -3, CURRENT_DATE), 320.00),
+(14, true, 'Labial con acabado brillante.', 2, '/images/labial_brillo.png', 'Labial de brillo suave', NULL, 320.00, NULL, 100, false, false, CURRENT_TIMESTAMP, NULL),
+(15, true, 'Crema hidratante para el cabello.', 5, '/images/crema_peinado.png', 'Crema de peinado', NULL, 89.00, NULL, 100, false, false, DATEADD('DAY', -20, CURRENT_DATE), NULL),
+(16, true, 'Fragancia floral suave.', 3, '/images/perfume_grance.png', 'Perfume Grance Lavanda para mujer', NULL, 320.00, NULL, 100, false, false, CURRENT_TIMESTAMP, NULL),
+(17, true, 'Bruma refrescante para el cuerpo.', 6, '/images/rocio_corporal.png', 'Rocío corporal', NULL, 320.00, NULL, 100, false, false, CURRENT_TIMESTAMP, NULL),
+(18, true, 'Limpieza profunda con carbón.', 1, '/images/mascarilla_carbon.png', 'Mascarilla de carbón vegetal', NULL, 89.00, NULL, 100, false, false, DATEADD('DAY', -30, CURRENT_DATE), NULL),
+(19, true, 'Corrector con retinol para la noche.', 1, '/images/retinol_nocturno.png', 'Retinol corrector nocturno', NULL, 320.00, NULL, 100, false, true, CURRENT_TIMESTAMP, NULL),
+(20, true, 'Exfoliante suave para uso nocturno.', 1, '/images/exfoliante_facial.png', 'Exfoliante facial nocturno', NULL, 320.00, NULL, 100, false, false, DATEADD('DAY', -15, CURRENT_DATE), NULL),
+(21, true, 'Maquillaje en polvo de larga duración.', 2, '/images/maquillaje_polvo.png', 'Maquillaje en polvo para el rostro', NULL, 318.00, NULL, 100, true, false, DATEADD('DAY', -5, CURRENT_DATE), 320.00),
+(22, true, 'Perfume fresco y primaveral.', 3, '/images/perfume_florie.png', 'Agua de perfume Florie', NULL, 320.00, NULL, 100, false, false, DATEADD('DAY', -2, CURRENT_DATE), NULL),
+(23, true, 'Labial líquido de gran pigmentación.', 2, '/images/labial_liquido.png', 'Labial líquido', NULL, 89.00, NULL, 100, false, false, DATEADD('DAY', -60, CURRENT_DATE), NULL),
+(24, true, 'Limpiador suave con antioxidantes.', 1, '/images/limpiador_facial.png', 'Limpiador facial antioxidante', NULL, 320.00, NULL, 100, false, false, CURRENT_TIMESTAMP, NULL);

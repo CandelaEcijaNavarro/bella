@@ -33,4 +33,9 @@ public class ProductoService {
     public void deleteById(int id) {
         productoRepository.deleteById(id);
     }
+
+    public List<Producto> findRecienLlegados() {
+        java.time.LocalDateTime sevenDaysAgo = java.time.LocalDateTime.now().minusDays(7);
+        return productoRepository.findByFechaCreacionAfter(sevenDaysAgo);
+    }
 }

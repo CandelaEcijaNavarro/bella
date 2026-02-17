@@ -29,4 +29,13 @@ public class ProductoController {
     public Producto getById(@PathVariable int id) {
         return productoService.findById(id).orElse(null);
     }
+
+    @GetMapping("/nuevos")
+    public List<Producto> getNuevos() {
+        List<Producto> nuevos = productoService.findRecienLlegados();
+        System.out.println("Solicitud recibida en /api/productos/nuevos");
+        System.out.println("Productos encontrados: " + nuevos.size());
+        nuevos.forEach(p -> System.out.println(" - " + p.getNombre() + " (" + p.getFechaCreacion() + ")"));
+        return nuevos;
+    }
 }

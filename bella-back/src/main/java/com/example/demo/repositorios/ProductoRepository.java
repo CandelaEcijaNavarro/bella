@@ -9,4 +9,6 @@ import java.util.List;
 @Repository
 public interface ProductoRepository extends JpaRepository<Producto, Integer> {
     List<Producto> findByActivo(boolean activo);
+
+    List<Producto> findByFechaCreacionAfter(java.time.LocalDateTime fecha);
 }
