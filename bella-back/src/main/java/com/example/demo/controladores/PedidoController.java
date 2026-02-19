@@ -28,8 +28,21 @@ public class PedidoController {
         return count == 0;
     }
 
+    @GetMapping("/{id}")
+    public Pedido getById(@PathVariable int id) {
+        return pedidoService.findById(id).orElse(null);
+    }
+
     @PostMapping
     public Pedido createPedido(@RequestBody Pedido pedido) {
-        return pedidoService.save(pedido);
+        System.out.println("🚀 [PedidoController] Creando nuevo pedido...");
+        if (pedido.getEstado() == null) {
+            pedido.setEstado(com.example.demo.entidades.EstadoPedido.PENDIENTE);
+            System.out.println("   - Estado auto-establecido: PENDIENTE");
+        }
+        // Date is now handled by @CreationTimestamp in the entity
+        Pedido saved = pedidoService.save(pedido);
+        System.out.println("✅ Pedido guardado con ID: " + saved.getIdPedido() + " y fecha: " + saved.getFechaPedido());
+        return saved;
     }
 }

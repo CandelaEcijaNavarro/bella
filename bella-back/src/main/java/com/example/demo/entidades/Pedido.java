@@ -4,6 +4,7 @@ import java.io.Serializable;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import org.hibernate.annotations.CreationTimestamp;
 
 /**
  * The persistent class for the pedidos database table.
@@ -20,9 +21,11 @@ public class Pedido implements Serializable {
 	@Column(name = "id_pedido")
 	private int idPedido;
 
-	private String estado;
+	@Enumerated(EnumType.STRING)
+	private EstadoPedido estado;
 
-	@Column(name = "fecha_pedido")
+	@CreationTimestamp
+	@Column(name = "fecha_pedido", updatable = false)
 	private Timestamp fechaPedido;
 
 	@Column(name = "id_usuario")
@@ -44,11 +47,11 @@ public class Pedido implements Serializable {
 		this.idPedido = idPedido;
 	}
 
-	public String getEstado() {
+	public EstadoPedido getEstado() {
 		return this.estado;
 	}
 
-	public void setEstado(String estado) {
+	public void setEstado(EstadoPedido estado) {
 		this.estado = estado;
 	}
 

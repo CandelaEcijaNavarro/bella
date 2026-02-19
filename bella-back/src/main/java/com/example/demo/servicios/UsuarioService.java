@@ -15,6 +15,9 @@ public class UsuarioService {
     @Autowired
     private UsuarioRepository usuarioRepository;
 
+    @Autowired
+    private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
+
     public List<Usuario> findAll() {
         return usuarioRepository.findAll();
     }
@@ -34,6 +37,14 @@ public class UsuarioService {
         if (usuario.getRol() == null) {
             usuario.setRol(com.example.demo.entidades.Rol.USUARIO);
         }
+
+        // Encrypt password if it's plain text (not already starting with $2a$ which is
+        // BCrypt prefix)
+        String pass = usuario.getPassword();
+        if (pass != null && !pass.startsWith("$2a$")) {
+            usuario.setPassword(passwordEncoder.encode(pass));
+        }
+
         return usuarioRepository.save(usuario);
     }
 

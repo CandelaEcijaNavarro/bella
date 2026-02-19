@@ -13,6 +13,9 @@ public class UsuarioController {
     @Autowired
     private UsuarioService usuarioService;
 
+    @Autowired
+    private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
+
     @PostMapping("/registro")
     public Usuario registro(@RequestBody Usuario usuario) {
         return usuarioService.save(usuario);
@@ -21,7 +24,7 @@ public class UsuarioController {
     @PostMapping("/login")
     public Usuario login(@RequestBody Usuario loginReq) {
         return usuarioService.findByEmail(loginReq.getEmail())
-                .filter(u -> u.getPassword().equals(loginReq.getPassword()))
+                .filter(u -> passwordEncoder.matches(loginReq.getPassword(), u.getPassword()))
                 .orElse(null);
     }
 
@@ -43,7 +46,7 @@ public class UsuarioController {
             // 1. Password Logic: Only change if password is provided in the request
             if (usuario.getPassword() != null && !usuario.getPassword().trim().isEmpty()) {
                 // If changing password, verify the current one
-                if (currentPassword == null || !currentPassword.equals(existingUser.getPassword())) {
+                if (currentPassword == null || !passwordEncoder.matches(currentPassword, existingUser.getPassword())) {
                     throw new RuntimeException("Contraseña actual incorrecta");
                 }
                 existingUser.setPassword(usuario.getPassword());
