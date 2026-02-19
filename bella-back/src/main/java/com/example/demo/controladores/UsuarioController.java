@@ -29,4 +29,51 @@ public class UsuarioController {
     public Usuario getById(@PathVariable int id) {
         return usuarioService.findById(id).orElse(null);
     }
+
+    @PutMapping("/update")
+    public Usuario update(@RequestBody Usuario usuario, @RequestParam(required = false) String currentPassword) {
+        try {
+            System.out.println("Actualizando usuario ID: " + usuario.getIdUsuario());
+            Usuario existingUser = usuarioService.findById(usuario.getIdUsuario()).orElse(null);
+            if (existingUser == null) {
+                System.out.println("Usuario no encontrado");
+                return null;
+            }
+
+            // 1. Password Logic: Only change if password is provided in the request
+            if (usuario.getPassword() != null && !usuario.getPassword().trim().isEmpty()) {
+                // If changing password, verify the current one
+                if (currentPassword == null || !currentPassword.equals(existingUser.getPassword())) {
+                    throw new RuntimeException("Contraseña actual incorrecta");
+                }
+                existingUser.setPassword(usuario.getPassword());
+            }
+
+            // 2. Partial Update: Copy other non-null fields
+            if (usuario.getNombre() != null)
+                existingUser.setNombre(usuario.getNombre());
+            if (usuario.getCalle() != null)
+                existingUser.setCalle(usuario.getCalle());
+            if (usuario.getCiudad() != null)
+                existingUser.setCiudad(usuario.getCiudad());
+            if (usuario.getCodigoPostal() != null)
+                existingUser.setCodigoPostal(usuario.getCodigoPostal());
+            if (usuario.getProvincia() != null)
+                existingUser.setProvincia(usuario.getProvincia());
+            if (usuario.getPais() != null)
+                existingUser.setPais(usuario.getPais());
+            if (usuario.getTelefono() != null)
+                existingUser.setTelefono(usuario.getTelefono());
+            if (usuario.getImagenPerfil() != null)
+                existingUser.setImagenPerfil(usuario.getImagenPerfil());
+            if (usuario.getFavoritos() != null)
+                existingUser.setFavoritos(usuario.getFavoritos());
+
+            return usuarioService.save(existingUser);
+        } catch (Exception e) {
+            System.err.println("ERROR EN UPDATE: " + e.getMessage());
+            e.printStackTrace();
+            throw e;
+        }
+    }
 }

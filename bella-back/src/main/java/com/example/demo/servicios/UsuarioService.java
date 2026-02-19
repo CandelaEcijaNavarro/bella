@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
+import java.sql.Timestamp;
 
 @Service
 public class UsuarioService {
@@ -27,6 +28,12 @@ public class UsuarioService {
     }
 
     public Usuario save(Usuario usuario) {
+        if (usuario.getFechaRegistro() == null) {
+            usuario.setFechaRegistro(new Timestamp(System.currentTimeMillis()));
+        }
+        if (usuario.getRol() == null) {
+            usuario.setRol(com.example.demo.entidades.Rol.USUARIO);
+        }
         return usuarioRepository.save(usuario);
     }
 

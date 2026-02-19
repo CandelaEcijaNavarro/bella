@@ -20,6 +20,14 @@ public class PedidoController {
         return pedidoService.findByUsuario(idUsuario);
     }
 
+    @GetMapping("/check-first/{idUsuario}")
+    public boolean isFirstOrder(@PathVariable int idUsuario) {
+        System.out.println("Comprobando si es el primer pedido para el usuario ID: " + idUsuario);
+        long count = pedidoService.countByUsuario(idUsuario);
+        System.out.println("Número de pedidos encontrados: " + count);
+        return count == 0;
+    }
+
     @PostMapping
     public Pedido createPedido(@RequestBody Pedido pedido) {
         return pedidoService.save(pedido);

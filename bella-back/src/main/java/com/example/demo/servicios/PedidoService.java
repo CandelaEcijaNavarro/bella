@@ -18,6 +18,10 @@ public class PedidoService {
         return pedidoRepository.findByIdUsuario(idUsuario);
     }
 
+    public long countByUsuario(int idUsuario) {
+        return pedidoRepository.findByIdUsuario(idUsuario).size();
+    }
+
     public Pedido save(Pedido pedido) {
         return pedidoRepository.save(pedido);
     }

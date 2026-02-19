@@ -3,7 +3,6 @@ package com.example.demo.entidades;
 import java.io.Serializable;
 import jakarta.persistence.*;
 import java.math.BigDecimal;
-import java.util.List;
 
 /**
  * The persistent class for the productos database table.
@@ -54,10 +53,6 @@ public class Producto implements Serializable {
 
 	@Column(name = "fecha_creacion")
 	private java.time.LocalDateTime fechaCreacion = java.time.LocalDateTime.now();
-
-	// bi-directional many-to-many association to Marca
-	@ManyToMany(mappedBy = "productos")
-	private List<Marca> marcas;
 
 	public Producto() {
 	}
@@ -140,14 +135,6 @@ public class Producto implements Serializable {
 
 	public void setStock(int stock) {
 		this.stock = stock;
-	}
-
-	public List<Marca> getMarcas() {
-		return this.marcas;
-	}
-
-	public void setMarcas(List<Marca> marcas) {
-		this.marcas = marcas;
 	}
 
 	public BigDecimal getPrecioOriginal() {

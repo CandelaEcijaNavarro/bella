@@ -42,9 +42,14 @@ public class Usuario implements Serializable {
 
 	private String provincia;
 
-	private String rol;
+	@Enumerated(EnumType.STRING)
+	private Rol rol;
 
 	private String telefono;
+
+	@Lob
+	@Column(name = "imagen_perfil", columnDefinition = "LONGTEXT")
+	private String imagenPerfil;
 
 	public Usuario() {
 	}
@@ -71,6 +76,14 @@ public class Usuario implements Serializable {
 
 	public void setCodigoPostal(String codigoPostal) {
 		this.codigoPostal = codigoPostal;
+	}
+
+	public String getImagenPerfil() {
+		return this.imagenPerfil;
+	}
+
+	public void setImagenPerfil(String imagenPerfil) {
+		this.imagenPerfil = imagenPerfil;
 	}
 
 	public String getEmail() {
@@ -137,11 +150,11 @@ public class Usuario implements Serializable {
 		this.provincia = provincia;
 	}
 
-	public String getRol() {
+	public Rol getRol() {
 		return this.rol;
 	}
 
-	public void setRol(String rol) {
+	public void setRol(Rol rol) {
 		this.rol = rol;
 	}
 
