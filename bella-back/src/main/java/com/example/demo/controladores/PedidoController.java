@@ -33,6 +33,18 @@ public class PedidoController {
         return pedidoService.findById(id).orElse(null);
     }
 
+    @GetMapping
+    public List<Pedido> getAll() {
+        return pedidoService.findAll();
+    }
+
+    @PutMapping("/{id}/status")
+    public Pedido updateStatus(@PathVariable int id, @RequestParam com.example.demo.entidades.EstadoPedido status) {
+        Pedido pedido = pedidoService.findById(id).orElseThrow(() -> new RuntimeException("Pedido no encontrado"));
+        pedido.setEstado(status);
+        return pedidoService.save(pedido);
+    }
+
     @PostMapping
     public Pedido createPedido(@RequestBody Pedido pedido) {
         System.out.println("🚀 [PedidoController] Creando nuevo pedido...");

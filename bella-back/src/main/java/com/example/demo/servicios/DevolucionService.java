@@ -37,6 +37,10 @@ public class DevolucionService {
         return devolucionRepository.findById(id);
     }
 
+    public List<Devolucion> findAll() {
+        return devolucionRepository.findAll();
+    }
+
     public Devolucion save(Devolucion devolucion) {
         return devolucionRepository.save(devolucion);
     }
@@ -76,6 +80,35 @@ public class DevolucionService {
         }
 
         System.out.println("✅ [DevolucionService] Auto-processed " + processed + " returns to REEMBOLSADA.");
+    }
+
+    /**
+     * Scheduled task: runs every 10 seconds.
+     * Checks for returns with estado=APROBADA where 1 minute has passed
+     * since the admin approved it (fechaResolucion) and automatically
+     * changes their status to REEMBOLSADA.
+     */
+    @Scheduled(fixedDelay = 10000) // Every 10 seconds
+    public void processApprovedReturns() {
+        long oneMinuteAgo = System.currentTimeMillis() - (60 * 1000);
+        Timestamp cutoff = new Timestamp(oneMinuteAgo);
+
+        List<Devolucion> aprobadas = devolucionRepository.findByEstado(EstadoDevolucion.ACEPTADA);
+        // Also handle legacy APROBADA status
+        aprobadas.addAll(devolucionRepository.findByEstado(EstadoDevolucion.APROBADA));
+
+        for (Devolucion dev : aprobadas) {
+            if (dev.getFechaResolucion() != null && dev.getFechaResolucion().before(cutoff)) {
+                dev.setEstado(EstadoDevolucion.REEMBOLSADA);
+                dev.setFechaResolucion(new Timestamp(System.currentTimeMillis()));
+                devolucionRepository.save(dev);
+
+                // Send refund confirmation email
+                sendRefundEmail(dev);
+                System.out.println("💰 [DevolucionService] Return #" + dev.getIdDevolucion()
+                        + " auto-refunded 1 minute after approval.");
+            }
+        }
     }
 
     /**

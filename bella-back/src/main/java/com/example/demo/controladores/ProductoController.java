@@ -33,9 +33,22 @@ public class ProductoController {
     @GetMapping("/nuevos")
     public List<Producto> getNuevos() {
         List<Producto> nuevos = productoService.findRecienLlegados();
-        System.out.println("Solicitud recibida en /api/productos/nuevos");
-        System.out.println("Productos encontrados: " + nuevos.size());
-        nuevos.forEach(p -> System.out.println(" - " + p.getNombre() + " (" + p.getFechaCreacion() + ")"));
         return nuevos;
+    }
+
+    @PostMapping
+    public Producto save(@RequestBody Producto producto) {
+        return productoService.save(producto);
+    }
+
+    @PutMapping("/{id}")
+    public Producto update(@PathVariable int id, @RequestBody Producto producto) {
+        producto.setIdProducto(id);
+        return productoService.save(producto);
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable int id) {
+        productoService.deleteById(id);
     }
 }

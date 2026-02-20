@@ -16,6 +16,16 @@ public class UsuarioController {
     @Autowired
     private org.springframework.security.crypto.password.PasswordEncoder passwordEncoder;
 
+    @GetMapping
+    public java.util.List<Usuario> getAll() {
+        return usuarioService.findAll();
+    }
+
+    @DeleteMapping("/{id}")
+    public void delete(@PathVariable int id) {
+        usuarioService.deleteById(id);
+    }
+
     @PostMapping("/registro")
     public Usuario registro(@RequestBody Usuario usuario) {
         return usuarioService.save(usuario);

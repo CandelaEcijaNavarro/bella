@@ -32,6 +32,10 @@ public class PedidoService {
         return pedidoRepository.findById(id);
     }
 
+    public List<Pedido> findAll() {
+        return pedidoRepository.findAll();
+    }
+
     /**
      * Simulation of order delivery process.
      * Transitions statuses based on time elapsed since order creation.

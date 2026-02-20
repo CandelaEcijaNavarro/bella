@@ -47,6 +47,24 @@ public class DevolucionController {
         return devolucionService.findById(id).orElse(null);
     }
 
+    @GetMapping
+    public List<Devolucion> getAll() {
+        return devolucionService.findAll();
+    }
+
+    @PutMapping("/{id}/status")
+    public Devolucion updateStatus(@PathVariable int id,
+            @RequestParam com.example.demo.entidades.EstadoDevolucion status) {
+        Devolucion devolucion = devolucionService.findById(id)
+                .orElseThrow(() -> new RuntimeException("Devolución no encontrada"));
+        devolucion.setEstado(status);
+        if (status == com.example.demo.entidades.EstadoDevolucion.ACEPTADA ||
+                status == com.example.demo.entidades.EstadoDevolucion.REEMBOLSADA) {
+            devolucion.setFechaResolucion(new Timestamp(System.currentTimeMillis()));
+        }
+        return devolucionService.save(devolucion);
+    }
+
     @PostMapping
     public Devolucion create(@RequestBody Devolucion devolucion) {
         devolucion.setEstado(EstadoDevolucion.PENDIENTE);
